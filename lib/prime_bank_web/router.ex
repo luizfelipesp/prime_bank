@@ -7,6 +7,8 @@ defmodule PrimeBankWeb.Router do
 
   scope "/api", PrimeBankWeb do
     pipe_through :api
+
+    get "/welcome", WelcomeController, :index
   end
 
   # Enable LiveDashboard in development
