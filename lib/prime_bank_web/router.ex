@@ -9,6 +9,8 @@ defmodule PrimeBankWeb.Router do
     pipe_through :api
 
     get "/welcome", WelcomeController, :index
+
+    resources "/", UsersController, only: [:create, :update, :delete, :show]
   end
 
   # Enable LiveDashboard in development
