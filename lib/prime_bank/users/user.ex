@@ -16,7 +16,7 @@ defmodule PrimeBank.Users.User do
     timestamps()
   end
 
-  def changeset(user, params) do
+  def changeset(user \\ %__MODULE__{}, params) do
     user
     |> cast(params, @required_params)
     |> validate_required(@required_params)
