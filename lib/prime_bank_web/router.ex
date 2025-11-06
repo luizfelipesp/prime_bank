@@ -10,7 +10,7 @@ defmodule PrimeBankWeb.Router do
 
     get "/welcome", WelcomeController, :index
 
-    resources "/", UsersController, only: [:create, :update, :delete, :show]
+    resources "/users", UsersController, only: [:create, :update, :delete, :show]
   end
 
   # Enable LiveDashboard in development
