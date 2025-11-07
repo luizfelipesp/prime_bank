@@ -15,9 +15,10 @@ defmodule PrimeBankWeb.UsersController do
     |> render(:created, user: user)
   end
 
-  defp handle_response({:error, _changeset} = error, conn) do
+  defp handle_response({:error, changeset}, conn) do
     conn
     |> put_status(:bad_request)
-    |> render("error.json", error: error)
+    |> put_view(json: PrimeBankWeb.ErrorJSON)
+    |> render(:error, changeset: changeset)
   end
 end
