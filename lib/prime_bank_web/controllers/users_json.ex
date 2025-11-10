@@ -8,6 +8,8 @@ defmodule PrimeBankWeb.UsersJSON do
     }
   end
 
+  def show(%{user: user}), do: %{data: data(user)}
+
   defp data(%User{} = user) do
     %{
       id: user.id,
