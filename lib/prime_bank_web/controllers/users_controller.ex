@@ -21,4 +21,13 @@ defmodule PrimeBankWeb.UsersController do
       |> render(:show, user: user)
     end
   end
+
+  def update(conn, %{"id" => id} = params) do
+    with {:ok, %User{} = user} <- Users.get(id),
+         {:ok, user_updated} <- Users.update(user, params) do
+      conn
+      |> put_status(:ok)
+      |> render(:update, user: user_updated)
+    end
+  end
 end

@@ -4,7 +4,8 @@ defmodule PrimeBank.Users.User do
 
   alias Ecto.Changeset
 
-  @required_params [:name, :password, :email, :cep]
+  @create_params [:name, :password, :email, :cep]
+  @update_params [:name, :email, :cep]
 
   schema "users" do
     field :name, :string
@@ -16,14 +17,26 @@ defmodule PrimeBank.Users.User do
     timestamps()
   end
 
-  def changeset(user \\ %__MODULE__{}, params) do
+  def changeset(params) do
+    %__MODULE__{}
+    |> cast(params, @create_params)
+    |> validations(@create_params)
+    |> add_password_hash()
+  end
+
+  def changeset(user, params) do
     user
-    |> cast(params, @required_params)
-    |> validate_required(@required_params)
+    |> cast(params, @update_params)
+    |> validations(@update_params)
+    |> add_password_hash()
+  end
+
+  defp validations(changeset, fields) do
+    changeset
+    |> validate_required(fields)
     |> validate_length(:cep, is: 8)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:name, min: 3)
-    |> add_password_hash()
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
