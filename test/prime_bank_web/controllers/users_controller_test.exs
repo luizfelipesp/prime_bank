@@ -7,7 +7,7 @@ defmodule PrimeBankWeb.UsersControllerTest do
         name: "felipe",
         email: "felipe@gotmail.com",
         cep: "12345678",
-        password: "12345"
+        password: "123456"
       }
 
       response =
@@ -40,6 +40,22 @@ defmodule PrimeBankWeb.UsersControllerTest do
       }
 
       assert expected_response == response
+    end
+
+    test "password min caracter", %{conn: conn} do
+      param_with_invalid_password = %{
+        name: "felipe",
+        email: "felip@gotmail.com",
+        cep: "1234567",
+        password: "1234"
+      }
+
+      response =
+        conn
+        |> post(~p'/api/users', param_with_invalid_password)
+        |> json_response(400)
+
+      assert "should be at least 6 character(s)" in response["errors"]["password"]
     end
 
     test "cep invalid lenght", %{conn: conn} do
