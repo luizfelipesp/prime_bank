@@ -30,4 +30,12 @@ defmodule PrimeBankWeb.UsersController do
       |> render(:update, user: user_updated)
     end
   end
+
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %User{} = user} <- Users.get(id),
+         {:ok, _} <- Users.delete(user) do
+      conn
+      |> put_status(:no_content)
+    end
+  end
 end
