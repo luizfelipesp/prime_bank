@@ -35,7 +35,7 @@ defmodule PrimeBankWeb.UsersController do
     with {:ok, %User{} = user} <- Users.get(id),
          {:ok, _} <- Users.delete(user) do
       conn
-      |> put_status(:no_content)
+      |> send_resp(:no_content, "")
     end
   end
 end
