@@ -106,4 +106,31 @@ defmodule PrimeBankWeb.UsersControllerTest do
       assert "should be at least 3 character(s)" in response["errors"]["name"]
     end
   end
+
+  describe "show/1" do
+    test "get an user", %{conn: conn} do
+      user = insert(:user, %{name: "felipe", cep: "64789657"})
+
+      response =
+        conn
+        |> get(~p'/api/users/#{user.id}')
+        |> json_response(200)
+
+      assert "felipe" == response["data"]["name"]
+      assert "64789657" == response["data"]["cep"]
+    end
+
+    test "user not found", %{conn: conn} do
+      some_id = 1
+
+      response =
+        conn
+        |> get(~p'/api/users/#{some_id}')
+        |> json_response(404)
+
+      response |> IO.inspect()
+
+      assert "User not found" == response["message"]
+    end
+  end
 end
