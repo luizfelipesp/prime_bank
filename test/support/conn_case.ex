@@ -28,6 +28,7 @@ defmodule PrimeBankWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import PrimeBankWeb.ConnCase
+      import PrimeBank.Factory
     end
   end
 
