@@ -38,6 +38,7 @@ defmodule PrimeBank.Users.User do
     |> validate_format(:email, ~r/@/)
     |> validate_length(:name, min: 3)
     |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
   end
 
   defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
