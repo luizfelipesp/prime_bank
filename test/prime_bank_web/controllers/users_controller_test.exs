@@ -128,8 +128,6 @@ defmodule PrimeBankWeb.UsersControllerTest do
         |> get(~p'/api/users/#{some_id}')
         |> json_response(404)
 
-      response |> IO.inspect()
-
       assert "User not found" == response["message"]
     end
   end
