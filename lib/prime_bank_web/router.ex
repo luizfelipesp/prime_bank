@@ -1,9 +1,23 @@
 defmodule PrimeBankWeb.Router do
   use PrimeBankWeb, :router
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug OpenApiSpex.Plug.PutApiSpec, module: PrimeBankWeb.ApiSpec
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    get "/", PrimeBankWeb.WelcomeController, :index
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   scope "/api" do
