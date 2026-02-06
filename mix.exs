@@ -52,7 +52,8 @@ defmodule PrimeBank.MixProject do
       {:argon2_elixir, "~> 4.0"},
       {:ex_machina, "~> 2.8.0", only: :test},
       {:tesla, "~> 1.16"},
-      {:mint, "~> 1.0"}
+      {:mint, "~> 1.0"},
+      {:open_api_spex, "~> 3.21"}
     ]
   end
 
