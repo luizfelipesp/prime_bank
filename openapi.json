@@ -74,37 +74,14 @@
                 "x-struct": "Elixir.PrimeBankWeb.Schemas.User",
                 "x-validate": null
             },
-            "UserParams": {
-                "description": "Params schema for single user",
-                "example": {
-                    "data": {
-                        "cep": "123456789",
-                        "email": "joe@gmail.com",
-                        "name": "Joe User",
-                        "password": "A2e45c"
-                    }
-                },
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/User"
-                    }
-                },
-                "title": "UserParams",
-                "type": "object",
-                "x-struct": "Elixir.PrimeBankWeb.Schemas.UserParams",
-                "x-validate": null
-            },
             "UserResponse": {
                 "description": "Response schema for single user",
                 "example": {
                     "data": {
                         "cep": "123456789",
                         "email": "joe@gmail.com",
-                        "id": 123,
-                        "inserted_at": "2017-09-12T12:34:55Z",
-                        "name": "Joe User",
-                        "password": "A2e45c",
-                        "updated_at": "2017-09-13T10:11:12Z"
+                        "id": 1,
+                        "name": "Joe User"
                     }
                 },
                 "properties": {
@@ -120,16 +97,12 @@
         }
     },
     "info": {
-        "title": "My App",
+        "title": "PrimeBank",
         "version": "1.0"
     },
     "openapi": "3.0.0",
     "paths": {
-        "/api/users": {
-            "post": "ok"
-        },
         "/api/users/{id}": {
-            "delete": "ok",
             "get": {
                 "callbacks": {},
                 "operationId": "PrimeBankWeb.UsersController.show",
@@ -147,17 +120,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserParams"
-                            }
-                        }
-                    },
-                    "description": "User params",
-                    "required": false
-                },
                 "responses": {
                     "200": {
                         "content": {
@@ -174,7 +136,7 @@
                     {},
                     {
                         "petstore_auth": [
-                            "read:users"
+                            "write:users, read:users"
                         ]
                     }
                 ],
@@ -182,9 +144,7 @@
                 "tags": [
                     "users"
                 ]
-            },
-            "patch": "ok",
-            "put": "ok"
+            }
         }
     },
     "security": [],

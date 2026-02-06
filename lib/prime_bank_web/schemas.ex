@@ -47,12 +47,9 @@ defmodule PrimeBankWeb.Schemas do
         data: User
       },
       example: %{
-        "data" => %{
-          "name" => "Joe User",
-          "email" => "joe@gmail.com",
-          "password" => "A2e45c",
-          "cep" => "123456789"
-        }
+        "name" => "Luiz Felipe",
+        "email" => "lfelipe@gmail.com",
+        "cep" => "123456789"
       }
     })
   end
@@ -69,13 +66,10 @@ defmodule PrimeBankWeb.Schemas do
       },
       example: %{
         "data" => %{
-          "id" => 123,
+          "id" => 1,
           "name" => "Joe User",
           "email" => "joe@gmail.com",
-          "password" => "A2e45c",
-          "cep" => "123456789",
-          "inserted_at" => "2017-09-12T12:34:55Z",
-          "updated_at" => "2017-09-13T10:11:12Z"
+          "cep" => "123456789"
         }
       }
     })

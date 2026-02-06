@@ -26,7 +26,6 @@ defmodule PrimeBankWeb.UsersController do
     parameters: [
       id: [in: :path, description: "User ID", type: :integer, example: 1]
     ],
-    request_body: {"User params", "application/json", UserParams},
     responses: [
       ok: {"User response", "application/json", UserResponse}
     ]
