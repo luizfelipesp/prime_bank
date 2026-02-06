@@ -1,10 +1,17 @@
 defmodule PrimeBankWeb.UsersController do
   use PrimeBankWeb, :controller
+  use OpenApiSpex.ControllerSpecs
 
   alias PrimeBank.Users.User
   alias PrimeBank.Users
+  alias PrimeBankWeb.Schemas.{UserParams, UserResponse}
 
   action_fallback PrimeBankWeb.FallbackController
+
+  tags ["users"]
+  security [%{}, %{"petstore_auth" => ["write:users, read:users"]}]
+
+  operation :create, false
 
   def create(conn, params) do
     with {:ok, %User{} = user} <- Users.create(params) do
@@ -14,6 +21,16 @@ defmodule PrimeBankWeb.UsersController do
     end
   end
 
+  operation :show,
+    summary: "Show an user",
+    parameters: [
+      id: [in: :path, description: "User ID", type: :integer, example: 1]
+    ],
+    request_body: {"User params", "application/json", UserParams},
+    responses: [
+      ok: {"User response", "application/json", UserResponse}
+    ]
+
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
@@ -21,6 +38,8 @@ defmodule PrimeBankWeb.UsersController do
       |> render(:show, user: user)
     end
   end
+
+  operation :update, false
 
   def update(conn, %{"id" => id} = params) do
     with {:ok, %User{} = user} <- Users.get(id),
@@ -30,6 +49,8 @@ defmodule PrimeBankWeb.UsersController do
       |> render(:update, user: user_updated)
     end
   end
+
+  operation :delete, false
 
   def delete(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id),

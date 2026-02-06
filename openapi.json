@@ -1,0 +1,198 @@
+{
+    "components": {
+        "responses": {},
+        "schemas": {
+            "User": {
+                "description": "A user of the app",
+                "example": {
+                    "cep": "123456789",
+                    "email": "joe@gmail.com",
+                    "id": 123,
+                    "inserted_at": "2017-09-12T12:34:55Z",
+                    "name": "Joe User",
+                    "password": "A2e45c",
+                    "updated_at": "2017-09-13T10:11:12Z"
+                },
+                "properties": {
+                    "cep": {
+                        "description": "CEP address",
+                        "format": "123456789",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "email": {
+                        "description": "Email address",
+                        "format": "email",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "inserted_at": {
+                        "description": "Creation timestamp",
+                        "format": "date-time",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "name": {
+                        "description": "User name",
+                        "pattern": "[a-zA-Z][a-zA-Z0-9_]+",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "password": {
+                        "description": "User password",
+                        "format": "123456",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    },
+                    "updated_at": {
+                        "description": "Update timestamp",
+                        "format": "date-time",
+                        "type": "string",
+                        "x-struct": null,
+                        "x-validate": null
+                    }
+                },
+                "required": [
+                    "name",
+                    "password",
+                    "email",
+                    "cep"
+                ],
+                "title": "User",
+                "type": "object",
+                "x-struct": "Elixir.PrimeBankWeb.Schemas.User",
+                "x-validate": null
+            },
+            "UserParams": {
+                "description": "Params schema for single user",
+                "example": {
+                    "data": {
+                        "cep": "123456789",
+                        "email": "joe@gmail.com",
+                        "name": "Joe User",
+                        "password": "A2e45c"
+                    }
+                },
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "title": "UserParams",
+                "type": "object",
+                "x-struct": "Elixir.PrimeBankWeb.Schemas.UserParams",
+                "x-validate": null
+            },
+            "UserResponse": {
+                "description": "Response schema for single user",
+                "example": {
+                    "data": {
+                        "cep": "123456789",
+                        "email": "joe@gmail.com",
+                        "id": 123,
+                        "inserted_at": "2017-09-12T12:34:55Z",
+                        "name": "Joe User",
+                        "password": "A2e45c",
+                        "updated_at": "2017-09-13T10:11:12Z"
+                    }
+                },
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "title": "UserResponse",
+                "type": "object",
+                "x-struct": "Elixir.PrimeBankWeb.Schemas.UserResponse",
+                "x-validate": null
+            }
+        }
+    },
+    "info": {
+        "title": "My App",
+        "version": "1.0"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/users": {
+            "post": "ok"
+        },
+        "/api/users/{id}": {
+            "delete": "ok",
+            "get": {
+                "callbacks": {},
+                "operationId": "PrimeBankWeb.UsersController.show",
+                "parameters": [
+                    {
+                        "description": "User ID",
+                        "example": 1,
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "x-struct": null,
+                            "x-validate": null
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserParams"
+                            }
+                        }
+                    },
+                    "description": "User params",
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        },
+                        "description": "User response"
+                    }
+                },
+                "security": [
+                    {},
+                    {
+                        "petstore_auth": [
+                            "read:users"
+                        ]
+                    }
+                ],
+                "summary": "Show an user",
+                "tags": [
+                    "users"
+                ]
+            },
+            "patch": "ok",
+            "put": "ok"
+        }
+    },
+    "security": [],
+    "servers": [
+        {
+            "url": "http://localhost:4000",
+            "variables": {}
+        }
+    ],
+    "tags": []
+}
