@@ -3,6 +3,13 @@ defmodule PrimeBankWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: PrimeBankWeb.ApiSpec
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
   scope "/api", PrimeBankWeb do
