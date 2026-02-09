@@ -1,6 +1,11 @@
 defmodule PrimeBank.ViaCep.Client do
   @default_url "https://viacep.com.br/ws/"
 
+  alias PrimeBank.ViaCep.Behaviour
+
+  @behaviour Behaviour
+
+  @impl Behaviour
   def call(url \\ @default_url, cep) do
     Tesla.get(client(), "#{url}#{cep}/json")
     |> handler_response()
