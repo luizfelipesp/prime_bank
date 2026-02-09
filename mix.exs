@@ -53,7 +53,8 @@ defmodule PrimeBank.MixProject do
       {:tesla, "~> 1.16"},
       {:mint, "~> 1.0"},
       {:ex_machina, "~> 2.8.0", only: :test},
-      {:bypass, "~> 2.1", only: :test}
+      {:bypass, "~> 2.1", only: :test},
+      {:mox, "~> 1.2", only: :test}
     ]
   end
 
