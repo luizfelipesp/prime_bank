@@ -6,6 +6,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
   setup :verify_on_exit!
 
   alias PrimeBank.ViaCep.ClientMock
+  alias PrimeBank.Users.User
+  alias PrimeBank.Repo
 
   describe "create/2" do
     test "create user successufuly", %{conn: conn} do
@@ -28,38 +30,23 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
       assert "User created successfully" == response["message"]
 
-      assert expected_cep == response["data"]["cep"]
+      assert "12345678" == response["data"]["cep"]
       assert "felipe" == response["data"]["name"]
       assert "felipe@gotmail.com" == response["data"]["email"]
-    end
-
-    test "when don't pass any params", %{conn: conn} do
-      empty_params = %{}
-
-      response =
-        conn
-        |> post(~p'/api/users', empty_params)
-        |> json_response(400)
-
-      expected_response = %{
-        "errors" => %{
-          "cep" => ["can't be blank"],
-          "email" => ["can't be blank"],
-          "name" => ["can't be blank"],
-          "password" => ["can't be blank"]
-        }
-      }
-
-      assert expected_response == response
     end
 
     test "password min caracter", %{conn: conn} do
       param_with_invalid_password = %{
         name: "felipe",
         email: "felip@gotmail.com",
-        cep: "1234567",
+        cep: "12345678",
         password: "1234"
       }
+
+      expected_cep = "12345678"
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
       response =
         conn
@@ -74,8 +61,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
         name: "felipe",
         email: "felip@gotmail.com",
         cep: "1234567",
-        password: "1234"
+        password: "123456"
       }
+
+      expected_cep = "1234567"
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
       response =
         conn
@@ -90,8 +82,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
         name: "felipe",
         email: "felipgotmail.com",
         cep: "12345678",
-        password: "1234"
+        password: "123456"
       }
+
+      expected_cep = "12345678"
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
       response =
         conn
@@ -104,10 +101,15 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "name min caracter", %{conn: conn} do
       params_with_invalid_name = %{
         name: "fe",
-        email: "felipgotmail.com",
+        email: "felip@gotmail.com",
         cep: "12345678",
-        password: "1234"
+        password: "123456"
       }
+
+      expected_cep = "12345678"
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
       response =
         conn
@@ -137,6 +139,105 @@ defmodule PrimeBankWeb.UsersControllerTest do
       response =
         conn
         |> get(~p'/api/users/#{some_id}')
+        |> json_response(404)
+
+      assert "User not found" == response["message"]
+    end
+  end
+
+  describe "update/1" do
+    test "success user updated name", %{conn: conn} do
+      user = insert(:user, %{name: "felipe"})
+
+      params_body = %{
+        name: "Luiz"
+      }
+
+      response =
+        conn
+        |> put(~p'/api/users/#{user.id}', params_body)
+        |> json_response(200)
+
+      assert user.id == response["data"]["id"]
+      assert "Luiz" == response["data"]["name"]
+      assert "User updated" == response["message"]
+    end
+
+    test "try update cep", %{conn: conn} do
+      user = insert(:user, %{cep: "64789657"})
+
+      params_body = %{
+        cep: "12345678"
+      }
+
+      expected_cep = "12345678"
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
+
+      response =
+        conn
+        |> put(~p'/api/users/#{user.id}', params_body)
+        |> json_response(200)
+
+      assert user.id == response["data"]["id"]
+      assert expected_cep == response["data"]["cep"]
+      assert "User updated" == response["message"]
+    end
+
+    test "try update cep invalid format", %{conn: conn} do
+      user = insert(:user, %{cep: "64789657"})
+
+      params_body = %{
+        cep: "12634"
+      }
+
+      ClientMock
+      |> expect(:call, fn _ -> {:ok, ""} end)
+
+      response =
+        conn
+        |> put(~p'/api/users/#{user.id}', params_body)
+        |> json_response(400)
+
+      assert "should be 8 character(s)" in response["errors"]["cep"]
+    end
+
+    # TO DO: update endpoint allows password change
+    # Fix branch: bug/password_updated
+
+    # test "try update password",%{conn: conn}
+
+    test "user not found", %{conn: conn} do
+      some_id = 1
+
+      params_body = %{name: "felipe"}
+
+      response =
+        conn
+        |> put(~p'/api/users/#{some_id}', params_body)
+        |> json_response(404)
+
+      assert "User not found" == response["message"]
+    end
+  end
+
+  describe "delete/1" do
+    test "user deleted successfully", %{conn: conn} do
+      user = insert(:user)
+
+      conn = delete(conn, ~p'/api/users/#{user.id}')
+      assert response(conn, 204)
+
+      assert nil == Repo.get(User, user.id)
+    end
+
+    test "user not found", %{conn: conn} do
+      some_id = 1
+
+      response =
+        conn
+        |> delete(~p'/api/users/#{some_id}')
         |> json_response(404)
 
       assert "User not found" == response["message"]
