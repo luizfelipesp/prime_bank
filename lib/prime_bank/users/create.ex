@@ -1,10 +1,10 @@
 defmodule PrimeBank.Users.Create do
-  alias PrimeBank.ViaCep
+  alias PrimeBank.ViaCep.Client
   alias PrimeBank.Users.User
   alias PrimeBank.Repo
 
   def call(%{"cep" => cep} = params) do
-    with {:ok, _} <- client().get(cep) do
+    with {:ok, _} <- client().call(cep) do
       params
       |> User.changeset()
       |> Repo.insert()
@@ -12,6 +12,6 @@ defmodule PrimeBank.Users.Create do
   end
 
   defp client do
-    Application.get_env(:prime_bank, :via_cep_client, ViaCep)
+    Application.get_env(:prime_bank, :via_cep_client, Client)
   end
 end

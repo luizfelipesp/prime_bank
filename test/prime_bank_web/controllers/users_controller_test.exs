@@ -1,14 +1,25 @@
 defmodule PrimeBankWeb.UsersControllerTest do
   use PrimeBankWeb.ConnCase
 
+  import Mox
+
+  setup :verify_on_exit!
+
+  alias PrimeBank.ViaCep.ClientMock
+
   describe "create/2" do
     test "create user successufuly", %{conn: conn} do
+      expected_cep = "12345678"
+
       params = %{
         name: "felipe",
         email: "felipe@gotmail.com",
         cep: "12345678",
         password: "123456"
       }
+
+      ClientMock
+      |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
       response =
         conn
@@ -17,8 +28,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
       assert "User created successfully" == response["message"]
 
+      assert expected_cep == response["data"]["cep"]
       assert "felipe" == response["data"]["name"]
-      assert "12345678" == response["data"]["cep"]
       assert "felipe@gotmail.com" == response["data"]["email"]
     end
 
