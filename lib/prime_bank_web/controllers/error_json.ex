@@ -27,6 +27,10 @@ defmodule PrimeBankWeb.ErrorJSON do
     %{status: "bad_request"}
   end
 
+  def error(%{status: :internal_server_error}) do
+    %{status: "internal_server_error"}
+  end
+
   def error(%{changeset: changeset}) do
     %{errors: Ecto.Changeset.traverse_errors(changeset, &format_errors/1)}
   end

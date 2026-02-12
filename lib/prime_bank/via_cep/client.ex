@@ -21,6 +21,8 @@ defmodule PrimeBank.ViaCep.Client do
   end
 
   defp handler_response({:ok, %Tesla.Env{status: 400}}) do
+    IO.inspect("QUEBRANDO NO CLIENT")
+
     {:error, :bad_request}
   end
 

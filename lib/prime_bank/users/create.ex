@@ -3,8 +3,10 @@ defmodule PrimeBank.Users.Create do
   alias PrimeBank.Users.User
   alias PrimeBank.Repo
 
-  def call(%{"cep" => cep} = params) do
-    with {:ok, _} <- client().call(cep) do
+  def call(params) do
+    IO.inspect("QUEBRANDO AQUI")
+
+    with {:ok, _} <- client().call(params["cep"]) do
       params
       |> User.changeset()
       |> Repo.insert()
