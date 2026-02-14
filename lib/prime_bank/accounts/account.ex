@@ -20,4 +20,10 @@ defmodule PrimeBank.Accounts.Account do
     |> check_constraint(:balance, name: :balance_must_be_positive)
     |> unique_constraint(:user_id, name: :unique_user_account)
   end
+
+  def changeset(%__MODULE__{} = account, params) do
+    account
+    |> cast(params, [:balance])
+    |> check_constraint(:balance, name: :balance_must_be_positive)
+  end
 end
