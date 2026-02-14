@@ -18,5 +18,6 @@ defmodule PrimeBank.Accounts.Account do
     |> cast(params, @create_params)
     |> validate_required(@create_params)
     |> check_constraint(:balance, name: :balance_must_be_positive)
+    |> unique_constraint(:user_id, name: :unique_user_account)
   end
 end
