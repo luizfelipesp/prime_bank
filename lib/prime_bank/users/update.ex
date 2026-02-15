@@ -1,6 +1,8 @@
 defmodule PrimeBank.Users.Update do
-  alias PrimeBank.Users.User
+  @moduledoc false
+
   alias PrimeBank.Repo
+  alias PrimeBank.Users.User
 
   alias PrimeBank.ViaCep.Client
 

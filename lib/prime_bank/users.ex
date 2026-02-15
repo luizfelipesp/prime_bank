@@ -1,8 +1,12 @@
 defmodule PrimeBank.Users do
+  @moduledoc """
+  public API for the users domain.
+  """
+
   alias PrimeBank.Users.Create
+  alias PrimeBank.Users.Delete
   alias PrimeBank.Users.Get
   alias PrimeBank.Users.Update
-  alias PrimeBank.Users.Delete
 
   defdelegate create(params), to: Create, as: :call
   defdelegate get(id), to: Get, as: :call
