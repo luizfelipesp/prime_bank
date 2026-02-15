@@ -1,4 +1,8 @@
 defmodule PrimeBank.ViaCep.Client do
+  @moduledoc """
+  A client of HTTPviacep API Web
+  """
+
   def call(cep) do
     Tesla.get(client(), "#{cep}/json")
     |> handler_response()

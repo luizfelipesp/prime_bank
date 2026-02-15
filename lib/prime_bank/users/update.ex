@@ -1,6 +1,8 @@
 defmodule PrimeBank.Users.Update do
-  alias PrimeBank.Users.User
+  @moduledoc false
+
   alias PrimeBank.Repo
+  alias PrimeBank.Users.User
 
   def call(user, params) do
     user

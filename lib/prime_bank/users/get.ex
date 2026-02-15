@@ -1,6 +1,7 @@
 defmodule PrimeBank.Users.Get do
-  alias PrimeBank.Users.User
+  @moduledoc false
   alias PrimeBank.Repo
+  alias PrimeBank.Users.User
 
   def call(id) do
     case Repo.get(User, id) do
