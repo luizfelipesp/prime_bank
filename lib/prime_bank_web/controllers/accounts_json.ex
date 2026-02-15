@@ -8,6 +8,20 @@ defmodule PrimeBankWeb.AccountsJSON do
     }
   end
 
+  def show(%{account: account}) do
+    %{
+      data: data(account)
+    }
+  end
+
+  def transaction(%{transaction: transaction}) do
+    %{
+      message: "Transaction successfully",
+      withdraw: data(transaction.withdraw),
+      deposit: data(transaction.deposit)
+    }
+  end
+
   defp data(%Account{} = account) do
     %{
       id: account.id,

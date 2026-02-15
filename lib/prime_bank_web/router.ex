@@ -12,7 +12,9 @@ defmodule PrimeBankWeb.Router do
 
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
 
+    get "/accounts/:id", AccountsController, :show
     post "/accounts", AccountsController, :create
+    post "/accounts/transaction", AccountsController, :transaction
   end
 
   # Enable LiveDashboard in development
