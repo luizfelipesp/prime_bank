@@ -1,5 +1,6 @@
 defmodule PrimeBank.Users.Get do
   @moduledoc false
+
   alias PrimeBank.Repo
   alias PrimeBank.Users.User
 
