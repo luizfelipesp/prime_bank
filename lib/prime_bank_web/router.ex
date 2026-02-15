@@ -14,7 +14,8 @@ defmodule PrimeBankWeb.Router do
 
     get "/accounts/:id", AccountsController, :show
     post "/accounts", AccountsController, :create
-    post "/accounts/transaction", AccountsController, :transaction
+    # post "/accounts/transaction", AccountsController, :transaction
+    post "/accounts/from/:from_account_id/to/:to_account_id", AccountsController, :transaction
   end
 
   # Enable LiveDashboard in development

@@ -24,14 +24,17 @@ defmodule PrimeBankWeb.AccountsController do
     end
   end
 
-  def transaction(conn, params) do
-    with %{
-           "from_account_id" => from_account_id,
-           "to_account_id" => to_account_id,
-           "value" => value
-         } <- params,
-         {:ok, transaction} <-
-           Accounts.transaction(from_account_id, to_account_id, value) do
+  def transaction(
+        conn,
+        %{
+          "from_account_id" => from_account_id,
+          "to_account_id" => to_account_id,
+          "value" => value
+        } = _params
+      ) do
+    # IO.inspect(params)
+
+    with {:ok, transaction} <- Accounts.transaction(from_account_id, to_account_id, value) do
       conn
       |> put_status(:ok)
       |> render(:transaction, transaction: transaction)
