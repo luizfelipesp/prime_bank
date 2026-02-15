@@ -1,8 +1,8 @@
 defmodule PrimeBankWeb.UsersController do
   use PrimeBankWeb, :controller
 
-  alias PrimeBank.Users.User
   alias PrimeBank.Users
+  alias PrimeBank.Users.User
 
   action_fallback PrimeBankWeb.FallbackController
 

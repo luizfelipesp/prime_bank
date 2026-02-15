@@ -1,4 +1,8 @@
 defmodule PrimeBank.ViaCep.Client do
+  @moduledoc """
+  A client of HTTPviacep API Web
+  """
+
   @default_url "https://viacep.com.br/ws/"
 
   alias PrimeBank.ViaCep.Behaviour

@@ -1,7 +1,9 @@
 defmodule PrimeBank.Users.Create do
-  alias PrimeBank.ViaCep.Client
-  alias PrimeBank.Users.User
+  @moduledoc false
+
   alias PrimeBank.Repo
+  alias PrimeBank.Users.User
+  alias PrimeBank.ViaCep.Client
 
   def call(%{"cep" => cep} = params) do
     with {:ok, _} <- client().call(cep) do

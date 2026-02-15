@@ -5,9 +5,9 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
   setup :verify_on_exit!
 
-  alias PrimeBank.ViaCep.ClientMock
-  alias PrimeBank.Users.User
   alias PrimeBank.Repo
+  alias PrimeBank.Users.User
+  alias PrimeBank.ViaCep.ClientMock
 
   describe "create/2" do
     test "create user successufuly", %{conn: conn} do

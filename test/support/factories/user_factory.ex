@@ -1,4 +1,6 @@
 defmodule PrimeBank.UserFactory do
+  @moduledoc false
+
   alias PrimeBank.Users.User
 
   defmacro __using__(_opts) do
