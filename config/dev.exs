@@ -26,6 +26,11 @@ config :prime_bank, PrimeBankWeb.Endpoint,
   secret_key_base: "GG2IxGGbC+Y3ONeOts9uCPUzA7//o6MVIPOr/lqJqqjPvPDkjrnj8nOz9yPiOtJ9",
   watchers: []
 
+config :iex,
+  default_prompt: "%prefix> ",
+  history_size: 1000,
+  history_file: ".iex_history"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
