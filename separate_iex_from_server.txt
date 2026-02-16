@@ -1,0 +1,7 @@
+Iniciate server with
+
+elixir --sname prime_bank -S mix phx.server
+
+Use on another terminal
+
+iex --sname foo --remsh prime_bank
