@@ -6,6 +6,8 @@ defmodule PrimeBank.Users.User do
 
   alias Ecto.Changeset
 
+  alias PrimeBank.Accounts.Account
+
   @create_params [:name, :password, :email, :cep]
   @update_params [:name, :email, :cep]
 
@@ -15,6 +17,7 @@ defmodule PrimeBank.Users.User do
     field :password_hash, :string
     field :email, :string
     field :cep, :string
+    has_one :account, Account
 
     timestamps()
   end
