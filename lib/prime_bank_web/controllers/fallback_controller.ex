@@ -15,10 +15,17 @@ defmodule PrimeBankWeb.FallbackController do
     |> render(:error, status: :bad_request)
   end
 
-  def call(conn, {:error, changeset}) do
+  def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:bad_request)
     |> put_view(json: PrimeBankWeb.ErrorJSON)
     |> render(:error, changeset: changeset)
+  end
+
+  def call(conn, _error) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(json: PrimeBankWeb.ErrorJSON)
+    |> render(:error, status: :bad_request)
   end
 end
