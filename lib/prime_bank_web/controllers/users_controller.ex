@@ -1,6 +1,7 @@
 defmodule PrimeBankWeb.UsersController do
   use PrimeBankWeb, :controller
 
+  alias PrimeBankWeb.TokenManager
   alias PrimeBank.Users
   alias PrimeBank.Users.User
 
@@ -11,6 +12,16 @@ defmodule PrimeBankWeb.UsersController do
       conn
       |> put_status(:created)
       |> render(:created, user: user)
+    end
+  end
+
+  def login(conn, params) do
+    with {:ok, user} <- Users.login(params) do
+      token = TokenManager.sign(user)
+
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
     end
   end
 
