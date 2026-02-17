@@ -5,14 +5,24 @@ defmodule PrimeBankWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug PrimeBankWeb.UserAuth
+  end
+
   scope "/api", PrimeBankWeb do
     pipe_through :api
 
     get "/welcome", WelcomeController, :index
 
-    resources "/users", UsersController, only: [:create, :update, :delete, :show]
+    resources "/users", UsersController, only: [:create]
 
     post "/login", UsersController, :login
+  end
+
+  scope "/api", PrimeBankWeb do
+    pipe_through [:api, :auth]
+
+    resources "/users", UsersController, only: [:update, :delete, :show]
 
     get "/accounts/:id", AccountsController, :show
     post "/accounts", AccountsController, :create
