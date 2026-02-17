@@ -1,9 +1,13 @@
 defmodule PrimeBank.Accounts.Transaction do
-  alias PrimeBank.Repo
-  alias PrimeBank.Accounts.Account
-  alias PrimeBank.Accounts
-  alias PrimeBank.Helpers.ValidationValue
+  @moduledoc """
+  This module is reponsible for transaction beetwen accounts
+  """
+
   alias Ecto.Multi
+  alias PrimeBank.Accounts
+  alias PrimeBank.Accounts.Account
+  alias PrimeBank.Helpers.ValidationValue
+  alias PrimeBank.Repo
 
   def call(from_account_id, to_account_id, value) do
     with {:ok, value} <- ValidationValue.call(value),

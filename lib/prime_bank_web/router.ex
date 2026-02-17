@@ -12,6 +12,8 @@ defmodule PrimeBankWeb.Router do
 
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
 
+    post "/login", UsersController, :login
+
     get "/accounts/:id", AccountsController, :show
     post "/accounts", AccountsController, :create
     post "/accounts/transaction", AccountsController, :transaction

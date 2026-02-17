@@ -3,6 +3,7 @@ defmodule PrimeBankWeb.UsersController do
 
   alias PrimeBank.Users
   alias PrimeBank.Users.User
+  alias PrimeBankWeb.TokenManager
 
   action_fallback PrimeBankWeb.FallbackController
 
@@ -11,6 +12,16 @@ defmodule PrimeBankWeb.UsersController do
       conn
       |> put_status(:created)
       |> render(:created, user: user)
+    end
+  end
+
+  def login(conn, params) do
+    with {:ok, user} <- Users.login(params) do
+      token = TokenManager.sign(user)
+
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
     end
   end
 

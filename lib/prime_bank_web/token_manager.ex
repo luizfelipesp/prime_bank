@@ -1,4 +1,8 @@
 defmodule PrimeBankWeb.TokenManager do
+  @moduledoc """
+  generate bearer token to user
+  """
+
   alias PrimeBankWeb.Endpoint
 
   @sign_salt "prime_bank_api"
