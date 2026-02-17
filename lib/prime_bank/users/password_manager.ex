@@ -1,4 +1,6 @@
 defmodule PrimeBank.Users.PasswordManager do
+  @moduledoc false
+
   alias PrimeBank.Users
 
   def call(%{"id" => id, "password" => password}) do

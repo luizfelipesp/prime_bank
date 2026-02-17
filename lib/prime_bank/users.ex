@@ -6,8 +6,8 @@ defmodule PrimeBank.Users do
   alias PrimeBank.Users.Create
   alias PrimeBank.Users.Delete
   alias PrimeBank.Users.Get
-  alias PrimeBank.Users.Update
   alias PrimeBank.Users.PasswordManager
+  alias PrimeBank.Users.Update
 
   defdelegate create(params), to: Create, as: :call
   defdelegate get(id), to: Get, as: :call
