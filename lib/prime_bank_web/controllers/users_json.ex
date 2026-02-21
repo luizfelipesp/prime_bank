@@ -8,6 +8,13 @@ defmodule PrimeBankWeb.UsersJSON do
     }
   end
 
+  def login(%{token: token}) do
+    %{
+      message: "User authenticated successfully",
+      bearer: token
+    }
+  end
+
   def show(%{user: user}), do: %{data: data(user)}
 
   def update(%{user: user}) do

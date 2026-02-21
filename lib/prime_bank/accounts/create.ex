@@ -1,6 +1,8 @@
 defmodule PrimeBank.Accounts.Create do
-  alias PrimeBank.Repo
+  @moduledoc false
+
   alias PrimeBank.Accounts.Account
+  alias PrimeBank.Repo
 
   def call(params) do
     params

@@ -1,6 +1,8 @@
 defmodule PrimeBank.Accounts.Get do
-  alias PrimeBank.Repo
+  @moduledoc false
+
   alias PrimeBank.Accounts.Account
+  alias PrimeBank.Repo
 
   def call(id) do
     case Repo.get(Account, id) do

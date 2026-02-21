@@ -1,6 +1,8 @@
 defmodule PrimeBank.Accounts do
-  alias PrimeBank.Accounts.Get
+  @moduledoc false
+
   alias PrimeBank.Accounts.Create
+  alias PrimeBank.Accounts.Get
   alias PrimeBank.Accounts.Transaction
 
   defdelegate get(id), to: Get, as: :call
