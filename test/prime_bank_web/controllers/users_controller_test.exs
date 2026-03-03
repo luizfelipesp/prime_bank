@@ -124,8 +124,18 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "get an user", %{conn: conn} do
       user = insert(:user, %{name: "felipe", cep: "64789657"})
 
+      %{"bearer" => token} =
+        conn
+        |> post(~p'/api/login', %{id: user.id, password: "123456"})
+        |> json_response(200)
+
+      #   {"authorization",
+      #  "Bearer SFMyNTY.g2gDdAAAAAF3B3VzZXJfaWRhAW4GAK-CBrWcAWIAAVGA.8SH8KHG_pUQ_M7Ct47BdyEOFAbkwtCMmGxmo-6NabHk"}
+
       response =
         conn
+        |> put_req_header("authorization", "Bearer #{token}")
+        # |> IO.inspect()
         |> get(~p'/api/users/#{user.id}')
         |> json_response(200)
 
