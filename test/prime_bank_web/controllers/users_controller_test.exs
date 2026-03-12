@@ -138,13 +138,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
     end
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
 
-      conn = authentication_conn(conn)
+      conn = authentication_conn(conn, nonexistent_user)
 
       response =
         conn
-        |> get(~p'/api/users/#{some_id}')
+        |> get(~p'/api/users/#{nonexistent_user.id}')
         |> json_response(404)
 
       assert "User not found" == response["message"]
@@ -221,15 +221,15 @@ defmodule PrimeBankWeb.UsersControllerTest do
     # test "try update password",%{conn: conn}
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
 
       params_body = %{name: "felipe"}
 
-      conn = authentication_conn(conn)
+      conn = authentication_conn(conn, nonexistent_user)
 
       response =
         conn
-        |> put(~p'/api/users/#{some_id}', params_body)
+        |> put(~p'/api/users/#{nonexistent_user.id}', params_body)
         |> json_response(404)
 
       assert "User not found" == response["message"]
@@ -249,13 +249,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
     end
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
 
-      conn = authentication_conn(conn)
+      conn = authentication_conn(conn, nonexistent_user)
 
       response =
         conn
-        |> delete(~p'/api/users/#{some_id}')
+        |> delete(~p'/api/users/#{nonexistent_user.id}')
         |> json_response(404)
 
       assert "User not found" == response["message"]

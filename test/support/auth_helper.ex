@@ -5,14 +5,6 @@ defmodule PrimeBank.AuthHelper do
 
   alias PrimeBankWeb.TokenManager
 
-  def authentication_conn(conn) do
-    user = insert(:user)
-
-    token = TokenManager.sign(user)
-
-    put_req_header(conn, "authorization", "Bearer #{token}")
-  end
-
   def authentication_conn(conn, user) do
     token = TokenManager.sign(user)
 
