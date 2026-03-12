@@ -1,4 +1,6 @@
 defmodule PrimeBankWeb.UserAuth do
+  @moduledoc false
+
   import Plug.Conn
   import Phoenix.Controller
 
@@ -7,8 +9,6 @@ defmodule PrimeBankWeb.UserAuth do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    IO.inspect(conn)
-
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, data} <- TokenManager.verify(token) do
       assign(conn, :user_id, data.user_id)
