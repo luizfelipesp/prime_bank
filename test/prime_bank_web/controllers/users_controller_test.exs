@@ -3,6 +3,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
   import Mox
 
+  import PrimeBank.AuthHelper
+
   setup :verify_on_exit!
 
   alias PrimeBank.Repo
@@ -124,18 +126,10 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "get an user", %{conn: conn} do
       user = insert(:user, %{name: "felipe", cep: "64789657"})
 
-      %{"bearer" => token} =
-        conn
-        |> post(~p'/api/login', %{id: user.id, password: "123456"})
-        |> json_response(200)
-
-      #   {"authorization",
-      #  "Bearer SFMyNTY.g2gDdAAAAAF3B3VzZXJfaWRhAW4GAK-CBrWcAWIAAVGA.8SH8KHG_pUQ_M7Ct47BdyEOFAbkwtCMmGxmo-6NabHk"}
+      conn = authentication_conn(conn, user)
 
       response =
         conn
-        |> put_req_header("authorization", "Bearer #{token}")
-        # |> IO.inspect()
         |> get(~p'/api/users/#{user.id}')
         |> json_response(200)
 
@@ -145,6 +139,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
     test "user not found", %{conn: conn} do
       some_id = 1
+
+      conn = authentication_conn(conn)
 
       response =
         conn
@@ -162,6 +158,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       params_body = %{
         name: "Luiz"
       }
+
+      conn = authentication_conn(conn, user)
 
       response =
         conn
@@ -185,6 +183,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       ClientMock
       |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
+      conn = authentication_conn(conn, user)
+
       response =
         conn
         |> put(~p'/api/users/#{user.id}', params_body)
@@ -205,6 +205,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       ClientMock
       |> expect(:call, fn _ -> {:ok, ""} end)
 
+      conn = authentication_conn(conn, user)
+
       response =
         conn
         |> put(~p'/api/users/#{user.id}', params_body)
@@ -223,6 +225,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
       params_body = %{name: "felipe"}
 
+      conn = authentication_conn(conn)
+
       response =
         conn
         |> put(~p'/api/users/#{some_id}', params_body)
@@ -236,6 +240,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "user deleted successfully", %{conn: conn} do
       user = insert(:user)
 
+      conn = authentication_conn(conn, user)
+
       conn = delete(conn, ~p'/api/users/#{user.id}')
       assert response(conn, 204)
 
@@ -244,6 +250,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
 
     test "user not found", %{conn: conn} do
       some_id = 1
+
+      conn = authentication_conn(conn)
 
       response =
         conn
