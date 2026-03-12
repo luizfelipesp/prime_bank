@@ -1,5 +1,5 @@
 defmodule PrimeBankWeb.UsersControllerTest do
-  use PrimeBankWeb.ConnCase
+  use PrimeBankWeb.ConnCase, async: true
 
   import Mox
 
