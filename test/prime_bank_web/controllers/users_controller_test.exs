@@ -1,7 +1,9 @@
 defmodule PrimeBankWeb.UsersControllerTest do
-  use PrimeBankWeb.ConnCase
+  use PrimeBankWeb.ConnCase, async: true
 
   import Mox
+
+  import PrimeBank.AuthHelper
 
   setup :verify_on_exit!
 
@@ -124,6 +126,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "get an user", %{conn: conn} do
       user = insert(:user, %{name: "felipe", cep: "64789657"})
 
+      conn = authentication_conn(conn, user)
+
       response =
         conn
         |> get(~p'/api/users/#{user.id}')
@@ -134,11 +138,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
     end
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
+
+      conn = authentication_conn(conn, nonexistent_user)
 
       response =
         conn
-        |> get(~p'/api/users/#{some_id}')
+        |> get(~p'/api/users/#{nonexistent_user.id}')
         |> json_response(404)
 
       assert "User not found" == response["message"]
@@ -152,6 +158,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       params_body = %{
         name: "Luiz"
       }
+
+      conn = authentication_conn(conn, user)
 
       response =
         conn
@@ -175,6 +183,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       ClientMock
       |> expect(:call, fn ^expected_cep -> {:ok, ""} end)
 
+      conn = authentication_conn(conn, user)
+
       response =
         conn
         |> put(~p'/api/users/#{user.id}', params_body)
@@ -195,6 +205,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
       ClientMock
       |> expect(:call, fn _ -> {:ok, ""} end)
 
+      conn = authentication_conn(conn, user)
+
       response =
         conn
         |> put(~p'/api/users/#{user.id}', params_body)
@@ -209,13 +221,15 @@ defmodule PrimeBankWeb.UsersControllerTest do
     # test "try update password",%{conn: conn}
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
 
       params_body = %{name: "felipe"}
 
+      conn = authentication_conn(conn, nonexistent_user)
+
       response =
         conn
-        |> put(~p'/api/users/#{some_id}', params_body)
+        |> put(~p'/api/users/#{nonexistent_user.id}', params_body)
         |> json_response(404)
 
       assert "User not found" == response["message"]
@@ -226,6 +240,8 @@ defmodule PrimeBankWeb.UsersControllerTest do
     test "user deleted successfully", %{conn: conn} do
       user = insert(:user)
 
+      conn = authentication_conn(conn, user)
+
       conn = delete(conn, ~p'/api/users/#{user.id}')
       assert response(conn, 204)
 
@@ -233,11 +249,13 @@ defmodule PrimeBankWeb.UsersControllerTest do
     end
 
     test "user not found", %{conn: conn} do
-      some_id = 1
+      nonexistent_user = %{id: 1}
+
+      conn = authentication_conn(conn, nonexistent_user)
 
       response =
         conn
-        |> delete(~p'/api/users/#{some_id}')
+        |> delete(~p'/api/users/#{nonexistent_user.id}')
         |> json_response(404)
 
       assert "User not found" == response["message"]
